@@ -79,15 +79,15 @@ description: "Список задач для реализации фичи"
 
 > **ВНИМАНИЕ: Пишите эти тесты ПЕРВЫМИ, убедитесь, что они ПАДАЮТ до реализации**
 
-- [ ] T015 [P] [US1] Написать падающие unit-тесты обработки состояния соединения `BleFlipperTransport` с фейковым GATT в `app/src/test/java/com/polarikus/bcscanner/data/ble/BleFlipperTransportTest.kt`
-- [ ] T016 [P] [US1] Написать падающие unit-тесты маппинга статуса в `MainViewModel` (кнопка видна только при `Connected`) в `app/src/test/java/com/polarikus/bcscanner/ui/main/MainViewModelTest.kt`
+- [x] T015 [P] [US1] Написать падающие unit-тесты обработки состояния соединения `BleFlipperTransport` с фейковым GATT в `app/src/test/java/com/polarikus/bcscanner/data/ble/BleFlipperTransportTest.kt`
+- [x] T016 [P] [US1] Написать падающие unit-тесты маппинга статуса в `MainViewModel` (кнопка видна только при `Connected`) в `app/src/test/java/com/polarikus/bcscanner/ui/main/MainViewModelTest.kt`
 
 ### Реализация для пользовательской истории 1
 
-- [ ] T017 [US1] Реализовать `BleFlipperTransport` (BluetoothGatt: подключение по сохранённому MAC с fallback-сканированием, обнаружение сервиса `fe60`, GAP-состояние → `ConnectionState`) в `app/src/main/java/com/polarikus/bcscanner/data/ble/BleFlipperTransport.kt` (зависит от T015, T009)
-- [ ] T018 [US1] Реализовать use-case-ы `ConnectToFlipper` и `DisconnectFromFlipper` в `app/src/main/java/com/polarikus/bcscanner/domain/usecase/` (сохранение последнего MAC через `DeviceStore`)
-- [ ] T019 [US1] Реализовать `MainViewModel` (состояние соединения, авто-подключение к последнему устройству) в `app/src/main/java/com/polarikus/bcscanner/ui/main/MainViewModel.kt` (зависит от T016)
-- [ ] T020 [US1] Реализовать `MainScreen` (индикатор статуса соединения, кнопка «Сканировать» скрыта, пока не `Connected`) в `app/src/main/java/com/polarikus/bcscanner/ui/main/MainScreen.kt`
+- [x] T017 [US1] Реализовать `BleFlipperTransport` (BluetoothGatt: подключение по сохранённому MAC с fallback-сканированием, обнаружение сервиса `fe60`, GAP-состояние → `ConnectionState`) в `app/src/main/java/com/polarikus/bcscanner/data/ble/BleFlipperTransport.kt` (зависит от T015, T009)
+- [x] T018 [US1] Реализовать use-case-ы `ConnectToFlipper` и `DisconnectFromFlipper` в `app/src/main/java/com/polarikus/bcscanner/domain/usecase/` (сохранение последнего MAC через `DeviceStore`)
+- [x] T019 [US1] Реализовать `MainViewModel` (состояние соединения, авто-подключение к последнему устройству) в `app/src/main/java/com/polarikus/bcscanner/ui/main/MainViewModel.kt` (зависит от T016)
+- [x] T020 [US1] Реализовать `MainScreen` (индикатор статуса соединения, кнопка «Сканировать» скрыта, пока не `Connected`) в `app/src/main/java/com/polarikus/bcscanner/ui/main/MainScreen.kt`
 
 **Контрольная точка**: US1 полностью функциональна и проверяема независимо (MVP)
 
