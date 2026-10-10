@@ -43,7 +43,7 @@ description: "Список задач для реализации фичи"
 - [x] T002 Создать каркас Gradle-проекта в `settings.gradle.kts`, `build.gradle.kts`, `gradle.properties`
 - [x] T003 Создать `app/build.gradle.kts` с зависимостями (Compose Material3, CameraX camera2/lifecycle/view, ML Kit Barcode Scanning, protobuf-javalite + Gradle-плагин protobuf, DataStore Preferences, coroutines, JUnit, kotlinx-coroutines-test, Robolectric), `minSdk 26`, `targetSdk 34`, `compileSdk 34` (зависит от T002)
 - [x] T004 [P] Настроить `app/src/main/AndroidManifest.xml`: разрешения `CAMERA`, `BLUETOOTH`, `BLUETOOTH_ADMIN`, `ACCESS_FINE_LOCATION` (maxSdkVersion 30), `BLUETOOTH_SCAN` (usesPermissionFlags neverForLocation), `BLUETOOTH_CONNECT`; объявить `BcScannerApplication` и `MainActivity`
-- [ ] T005 [P] Вендорить `.proto`-файлы из `flipperzero-protobuf` в `app/src/main/proto/` (как минимум `main.proto`, `application.proto` и транзитивные импорты)
+- [x] T005 [P] Вендорить `.proto`-файлы из `flipperzero-protobuf` в `app/src/main/proto/` (как минимум `main.proto`, `application.proto` и транзитивные импорты)
 - [ ] T006 [P] Создать строковые ресурсы интерфейса в `app/src/main/res/values/strings.xml` (английский) и `app/src/main/res/values-ru/strings.xml` (русский; применяется только при локали ОС ru, `values` — fallback)
 
 **Контрольная точка**: Android-проект собирается и готов к доменному слою
