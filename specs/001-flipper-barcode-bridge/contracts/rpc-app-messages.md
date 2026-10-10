@@ -27,6 +27,15 @@ message DataExchangeRequest { bytes data = 1; }
 - Ответ 1: `PB_Main { command_id = N, status = OK }` (успех/ошибка запуска).
 - Ответ 2 (событие): `PB_Main { app_state_response { state = APP_STARTED } }` — приложение готово.
 
+**Запуск по имени и фолбэк по пути.** `loader_start` разрешает внешнее приложение по
+статическому списку `FLIPPER_EXTERNAL_APPS` (генерируется из `applications/external` на этапе
+сборки прошивки) либо по существующему пути к `.fap` на SD-карте
+(`applications/services/loader/loader.c`). Пользовательский FAP, установленный на SD (например,
+`bc_scanner.fap` в `/ext/apps/USB/`), в этот список не входит, поэтому запуск по короткому
+`appid` на стоковой прошивке возвращает `ERROR_INVALID_PARAMETERS`
+(`LoaderStatusErrorUnknownApp`). Клиент сначала пробует `name = "bc_scanner"`, а при этой ошибке
+повторяет запрос с полным путём `name = "/ext/apps/USB/bc_scanner.fap"`.
+
 ### 2. Передача значения штрихкода (FR-007, FR-015)
 
 - Запрос: `PB_Main { command_id = M, app_data_exchange_request { data = <байты значения> } }`

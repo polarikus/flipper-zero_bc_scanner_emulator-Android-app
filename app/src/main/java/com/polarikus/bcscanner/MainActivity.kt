@@ -3,16 +3,12 @@ package com.polarikus.bcscanner
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -20,6 +16,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.polarikus.bcscanner.ui.main.MainScreen
 import com.polarikus.bcscanner.ui.main.MainViewModel
+import com.polarikus.bcscanner.ui.scanner.ScannerScreen
+import com.polarikus.bcscanner.ui.scanner.ScannerViewModel
 
 /** Navigation routes for the app. */
 object Routes {
@@ -58,15 +56,13 @@ fun BcScannerNavHost(navController: NavHostController = rememberNavController())
             )
         }
         composable(Routes.SCANNER) {
-            // Placeholder until ScannerScreen is implemented in T036.
-            PlaceholderScreen(text = stringResource(R.string.scanner_title))
+            val viewModel: ScannerViewModel =
+                viewModel(factory = container.scannerViewModelFactory)
+            ScannerScreen(
+                viewModel = viewModel,
+                scanner = container.barcodeScanner,
+                onReturnToMain = { navController.popBackStack(Routes.MAIN, inclusive = false) },
+            )
         }
-    }
-}
-
-@Composable
-private fun PlaceholderScreen(text: String) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = text, style = MaterialTheme.typography.headlineSmall)
     }
 }

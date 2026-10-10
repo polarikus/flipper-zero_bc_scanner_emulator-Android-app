@@ -101,30 +101,30 @@ description: "Список задач для реализации фичи"
 
 ### Flipper-приложение (RPC-режим) для пользовательской истории 2
 
-- [ ] T021 [P] [US2] Разобрать аргумент `RPC %lX`, сохранить `RpcAppSystem*`, зарегистрировать callback и вызвать `rpc_system_app_send_started` в `../bc_scanner_emulate/bc_scanner_app.c` и `../bc_scanner_emulate/bc_scanner_app_i.h`
-- [ ] T022 [P] [US2] Добавить in-memory путь отправки в USB CDC (отправка принятых байтов без файла) в `../bc_scanner_emulate/bc_scanner_script.c` и `../bc_scanner_emulate/bc_scanner_script.h`
-- [ ] T023 [US2] Обработать `RpcAppEventTypeDataExchange` (отправка байтов, `rpc_system_app_confirm(true/false)`), `AppExit`, `SessionClose` в `../bc_scanner_emulate/bc_scanner_app.c` (зависит от T021, T022)
-- [ ] T024 [US2] Добавить RPC-сцену/индикацию (ожидание / принято / отправлено / ошибка) в `../bc_scanner_emulate/scenes/` (зависит от T021)
-- [ ] T025 [US2] Собрать и установить обновлённый FAP (`./fbt fap_bc_scanner`), проверить запуск в RPC-режиме и приём данных (зависит от T023, T024)
+- [x] T021 [P] [US2] Разобрать аргумент `RPC %lX`, сохранить `RpcAppSystem*`, зарегистрировать callback и вызвать `rpc_system_app_send_started` в `../bc_scanner_emulate/bc_scanner_app.c` и `../bc_scanner_emulate/bc_scanner_app_i.h`
+- [x] T022 [P] [US2] Добавить in-memory путь отправки в USB CDC (отправка принятых байтов без файла) в `../bc_scanner_emulate/bc_scanner_script.c` и `../bc_scanner_emulate/bc_scanner_script.h`
+- [x] T023 [US2] Обработать `RpcAppEventTypeDataExchange` (отправка байтов, `rpc_system_app_confirm(true/false)`), `AppExit`, `SessionClose` в `../bc_scanner_emulate/bc_scanner_app.c` (зависит от T021, T022)
+- [x] T024 [US2] Добавить RPC-сцену/индикацию (ожидание / принято / отправлено / ошибка) в `../bc_scanner_emulate/scenes/` (зависит от T021)
+- [x] T025 [US2] Собрать и установить обновлённый FAP (`./fbt fap_bc_scanner`), проверить запуск в RPC-режиме и приём данных (зависит от T023, T024)
 
 ### Тесты для пользовательской истории 2 ⚠️
 
-- [ ] T026 [P] [US2] Написать падающие unit-тесты для `RpcFrameCodec` (varint-длина + delimited-кодирование/декодирование `PB_Main`) в `app/src/test/java/com/polarikus/bcscanner/data/rpc/RpcFrameCodecTest.kt`
-- [ ] T027 [P] [US2] Написать падающие unit-тесты для `RpcCommandDispatcher` (корреляция по `command_id`, таймаут → ошибка) в `app/src/test/java/com/polarikus/bcscanner/data/rpc/RpcCommandDispatcherTest.kt`
-- [ ] T028 [P] [US2] Написать падающие unit-тесты выбора штрихкода (выбор с наибольшей confidence при нескольких) в `app/src/test/java/com/polarikus/bcscanner/scanner/BarcodeSelectionTest.kt`
-- [ ] T029 [P] [US2] Написать падающие unit-тесты для `SendScannedCode` (ack → `Delivered`, таймаут → `Error`) в `app/src/test/java/com/polarikus/bcscanner/domain/usecase/SendScannedCodeTest.kt`
+- [x] T026 [P] [US2] Написать падающие unit-тесты для `RpcFrameCodec` (varint-длина + delimited-кодирование/декодирование `PB_Main`) в `app/src/test/java/com/polarikus/bcscanner/data/rpc/RpcFrameCodecTest.kt`
+- [x] T027 [P] [US2] Написать падающие unit-тесты для `RpcCommandDispatcher` (корреляция по `command_id`, таймаут → ошибка) в `app/src/test/java/com/polarikus/bcscanner/data/rpc/RpcCommandDispatcherTest.kt`
+- [x] T028 [P] [US2] Написать падающие unit-тесты выбора штрихкода (выбор с наибольшей confidence при нескольких) в `app/src/test/java/com/polarikus/bcscanner/scanner/BarcodeSelectionTest.kt`
+- [x] T029 [P] [US2] Написать падающие unit-тесты для `SendScannedCode` (ack → `Delivered`, таймаут → `Error`) в `app/src/test/java/com/polarikus/bcscanner/domain/usecase/SendScannedCodeTest.kt`
 
 ### Реализация для пользовательской истории 2
 
-- [ ] T030 [US2] Реализовать `RpcFrameCodec` в `app/src/main/java/com/polarikus/bcscanner/data/rpc/RpcFrameCodec.kt` (зависит от T026)
-- [ ] T031 [US2] Реализовать `RpcCommandDispatcher` в `app/src/main/java/com/polarikus/bcscanner/data/rpc/RpcCommandDispatcher.kt` (зависит от T027)
-- [ ] T032 [US2] Реализовать `RpcFlipperClient` (автозапуск приложения `bc_scanner` с `args="RPC"` при подключении (FR-019), отправка `app_data_exchange_request`, ожидание ack, таймауты) в `app/src/main/java/com/polarikus/bcscanner/data/rpc/RpcFlipperClient.kt` (зависит от T030, T031)
-- [ ] T033 [US2] Реализовать `MlKitBarcodeScanner` (CameraX ImageAnalysis + ML Kit, выбор с наибольшей confidence) в `app/src/main/java/com/polarikus/bcscanner/scanner/MlKitBarcodeScanner.kt` (зависит от T028)
-- [ ] T034 [US2] Реализовать use-case `SendScannedCode` в `app/src/main/java/com/polarikus/bcscanner/domain/usecase/SendScannedCode.kt` (зависит от T029, T032)
-- [ ] T035 [US2] Реализовать `ScannerViewModel` (сканирование → отправка → статус; одиночный возврат на главный экран) в `app/src/main/java/com/polarikus/bcscanner/ui/scanner/ScannerViewModel.kt` (зависит от T034)
-- [ ] T036 [US2] Реализовать `ScannerScreen` (предпросмотр CameraX + анализатор, гейтинг разрешения камеры) в `app/src/main/java/com/polarikus/bcscanner/ui/scanner/ScannerScreen.kt` (зависит от T033, T035)
-- [ ] T037 [US2] Связать действие «Сканировать» и отображение последнего отправленного кода (значение + статус) в `app/src/main/java/com/polarikus/bcscanner/ui/main/MainScreen.kt` и `MainViewModel.kt` (зависит от T019, T035)
-- [ ] T038 [US2] Сквозная проверка: сканировать известный код → доставлено → целевое устройство получает значение через COM (зависит от T025, T037)
+- [x] T030 [US2] Реализовать `RpcFrameCodec` в `app/src/main/java/com/polarikus/bcscanner/data/rpc/RpcFrameCodec.kt` (зависит от T026)
+- [x] T031 [US2] Реализовать `RpcCommandDispatcher` в `app/src/main/java/com/polarikus/bcscanner/data/rpc/RpcCommandDispatcher.kt` (зависит от T027)
+- [x] T032 [US2] Реализовать `RpcFlipperClient` (автозапуск приложения `bc_scanner` с `args="RPC"` при подключении (FR-019), отправка `app_data_exchange_request`, ожидание ack, таймауты) в `app/src/main/java/com/polarikus/bcscanner/data/rpc/RpcFlipperClient.kt` (зависит от T030, T031)
+- [x] T033 [US2] Реализовать `MlKitBarcodeScanner` (CameraX ImageAnalysis + ML Kit, выбор с наибольшей confidence) в `app/src/main/java/com/polarikus/bcscanner/scanner/MlKitBarcodeScanner.kt` (зависит от T028)
+- [x] T034 [US2] Реализовать use-case `SendScannedCode` в `app/src/main/java/com/polarikus/bcscanner/domain/usecase/SendScannedCode.kt` (зависит от T029, T032)
+- [x] T035 [US2] Реализовать `ScannerViewModel` (сканирование → отправка → статус; одиночный возврат на главный экран) в `app/src/main/java/com/polarikus/bcscanner/ui/scanner/ScannerViewModel.kt` (зависит от T034)
+- [x] T036 [US2] Реализовать `ScannerScreen` (предпросмотр CameraX + анализатор, гейтинг разрешения камеры) в `app/src/main/java/com/polarikus/bcscanner/ui/scanner/ScannerScreen.kt` (зависит от T033, T035)
+- [x] T037 [US2] Связать действие «Сканировать» и отображение последнего отправленного кода (значение + статус) в `app/src/main/java/com/polarikus/bcscanner/ui/main/MainScreen.kt` и `MainViewModel.kt` (зависит от T019, T035)
+- [x] T038 [US2] Сквозная проверка: сканировать известный код → доставлено → целевое устройство получает значение через COM (зависит от T025, T037)
 
 **Контрольная точка**: US1 и US2 работают; ядро ценности доставлено
 

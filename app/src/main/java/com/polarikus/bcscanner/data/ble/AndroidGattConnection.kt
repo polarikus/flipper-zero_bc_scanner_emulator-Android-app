@@ -121,8 +121,11 @@ class AndroidGattConnection(
                 ),
                 indicate = false,
             )
-            servicesReady = true
-            eventFlow.tryEmit(GattEvent.ServicesDiscovered)
+            // Subscriptions are written asynchronously; the link is only usable once every
+            // CCCD write has completed (GATT allows a single outstanding operation at a time).
+            if (pendingDescriptors.isEmpty()) {
+                onSubscriptionsComplete()
+            }
         }
 
         @Deprecated("Deprecated in Android 13")
@@ -146,10 +149,23 @@ class AndroidGattConnection(
             descriptor: BluetoothGattDescriptor,
             status: Int,
         ) {
+            Log.i(TAG, "onDescriptorWrite status=$status uuid=${descriptor.uuid}")
             if (pendingDescriptors.isNotEmpty()) {
                 pendingDescriptors.removeFirst()
             }
-            writeNextDescriptor(gatt)
+            if (pendingDescriptors.isEmpty()) {
+                onSubscriptionsComplete()
+            } else {
+                writeNextDescriptor(gatt)
+            }
+        }
+
+        override fun onCharacteristicWrite(
+            gatt: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            status: Int,
+        ) {
+            Log.i(TAG, "onCharacteristicWrite status=$status uuid=${characteristic.uuid}")
         }
     }
 
@@ -191,6 +207,11 @@ class AndroidGattConnection(
         if (pendingDescriptors.size == 1) {
             writeNextDescriptor(gatt)
         }
+    }
+
+    private fun onSubscriptionsComplete() {
+        servicesReady = true
+        eventFlow.tryEmit(GattEvent.ServicesDiscovered)
     }
 
     private fun writeNextDescriptor(gatt: BluetoothGatt) {

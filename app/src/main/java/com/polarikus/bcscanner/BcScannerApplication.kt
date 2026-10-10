@@ -10,14 +10,19 @@ import com.polarikus.bcscanner.data.ble.AndroidGattConnectionFactory
 import com.polarikus.bcscanner.data.ble.BleFlipperTransport
 import com.polarikus.bcscanner.data.prefs.DataStoreDeviceStore
 import com.polarikus.bcscanner.data.prefs.DeviceStore
+import com.polarikus.bcscanner.data.rpc.RpcFlipperClient
+import com.polarikus.bcscanner.data.session.LastSentCodeStore
 import com.polarikus.bcscanner.domain.ConnectionStateMachine
 import com.polarikus.bcscanner.domain.FlipperDeviceScanner
 import com.polarikus.bcscanner.domain.FlipperRpcClient
 import com.polarikus.bcscanner.domain.FlipperTransport
 import com.polarikus.bcscanner.domain.usecase.ConnectToFlipper
 import com.polarikus.bcscanner.domain.usecase.DisconnectFromFlipper
+import com.polarikus.bcscanner.domain.usecase.SendScannedCode
 import com.polarikus.bcscanner.scanner.BarcodeScanner
+import com.polarikus.bcscanner.scanner.MlKitBarcodeScanner
 import com.polarikus.bcscanner.ui.main.MainViewModel
+import com.polarikus.bcscanner.ui.scanner.ScannerViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -92,13 +97,33 @@ class AppContainer(context: Context) {
                 transport = flipperTransport,
                 connectToFlipper = connectToFlipper,
                 disconnectFromFlipper = disconnectFromFlipper,
+                lastSentCodeStore = lastSentCodeStore,
             )
         }
     }
 
-    /** RPC client; registered by US2 (T032). */
-    var rpcClient: FlipperRpcClient? = null
+    /** In-memory store of the last code sent to the FlipperZero (FR-012, FR-017). */
+    val lastSentCodeStore: LastSentCodeStore by lazy { LastSentCodeStore() }
+
+    /**
+     * RPC client (US2, T032). Created eagerly so the `bc_scanner` application is auto-started
+     * as soon as the FlipperZero connects (FR-019), independently of screen navigation.
+     */
+    val rpcClient: FlipperRpcClient = RpcFlipperClient(transport = flipperTransport, scope = appScope)
+
+    /** Sends a scanned code and maps the outcome to a delivery status. */
+    val sendScannedCode: SendScannedCode by lazy { SendScannedCode(rpcClient) }
 
     /** Barcode scanner; registered by US2 (T033). */
-    var barcodeScanner: BarcodeScanner? = null
+    val barcodeScanner: BarcodeScanner by lazy { MlKitBarcodeScanner() }
+
+    /** Factory for the scanner screen view model. */
+    val scannerViewModelFactory: ViewModelProvider.Factory = viewModelFactory {
+        initializer {
+            ScannerViewModel(
+                sendScannedCode = sendScannedCode,
+                lastSentCodeStore = lastSentCodeStore,
+            )
+        }
+    }
 }

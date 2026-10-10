@@ -1,6 +1,7 @@
 package com.polarikus.bcscanner.ui.main
 
 import com.polarikus.bcscanner.data.prefs.DeviceStore
+import com.polarikus.bcscanner.data.session.LastSentCodeStore
 import com.polarikus.bcscanner.domain.FlipperDeviceScanner
 import com.polarikus.bcscanner.domain.FlipperTransport
 import com.polarikus.bcscanner.domain.model.ConnectionState
@@ -126,6 +127,7 @@ class MainViewModelTest {
         transport = transport,
         connectToFlipper = ConnectToFlipper(transport, store, scanner),
         disconnectFromFlipper = DisconnectFromFlipper(transport),
+        lastSentCodeStore = LastSentCodeStore(),
     )
 
     private class FakeTransport : FlipperTransport {

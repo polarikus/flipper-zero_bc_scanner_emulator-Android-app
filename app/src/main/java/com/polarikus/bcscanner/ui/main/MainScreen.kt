@@ -26,6 +26,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.polarikus.bcscanner.R
 import com.polarikus.bcscanner.domain.model.ConnectionState
+import com.polarikus.bcscanner.domain.model.DeliveryStatus
+import com.polarikus.bcscanner.domain.model.LastSentCode
 import com.polarikus.bcscanner.ui.permissions.PermissionManager
 
 /**
@@ -40,6 +42,7 @@ fun MainScreen(
 ) {
     val connectionState by viewModel.connectionState.collectAsStateWithLifecycle()
     val scanEnabled by viewModel.scanEnabled.collectAsStateWithLifecycle()
+    val lastSentCode by viewModel.lastSentCode.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val requiredPermissions = remember { PermissionManager.bluetoothPermissions() }
@@ -100,7 +103,39 @@ fun MainScreen(
                 Text(text = stringResource(R.string.action_retry))
             }
         }
+
+        LastSentSection(lastSentCode)
     }
+}
+
+@Composable
+private fun LastSentSection(lastSentCode: LastSentCode?) {
+    Text(
+        text = stringResource(R.string.last_sent_title),
+        style = MaterialTheme.typography.titleMedium,
+    )
+    if (lastSentCode == null) {
+        Text(
+            text = stringResource(R.string.last_sent_empty),
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    } else {
+        Text(
+            text = String(lastSentCode.code.value, Charsets.UTF_8),
+            style = MaterialTheme.typography.bodyLarge,
+        )
+        Text(
+            text = deliveryStatusText(lastSentCode.status),
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+}
+
+@Composable
+private fun deliveryStatusText(status: DeliveryStatus): String = when (status) {
+    DeliveryStatus.Pending -> stringResource(R.string.delivery_status_pending)
+    DeliveryStatus.Delivered -> stringResource(R.string.delivery_status_delivered)
+    is DeliveryStatus.Error -> stringResource(R.string.delivery_status_error)
 }
 
 @Composable
