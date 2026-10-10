@@ -11,11 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.polarikus.bcscanner.ui.main.MainScreen
+import com.polarikus.bcscanner.ui.main.MainViewModel
 
 /** Navigation routes for the app. */
 object Routes {
@@ -44,10 +48,14 @@ class MainActivity : ComponentActivity() {
 /** Compose navigation shell with the main and scanner destinations. */
 @Composable
 fun BcScannerNavHost(navController: NavHostController = rememberNavController()) {
+    val container = (LocalContext.current.applicationContext as BcScannerApplication).container
     NavHost(navController = navController, startDestination = Routes.MAIN) {
         composable(Routes.MAIN) {
-            // Placeholder until MainScreen is implemented in T020.
-            PlaceholderScreen(text = stringResource(R.string.app_name))
+            val viewModel: MainViewModel = viewModel(factory = container.mainViewModelFactory)
+            MainScreen(
+                viewModel = viewModel,
+                onScanClick = { navController.navigate(Routes.SCANNER) },
+            )
         }
         composable(Routes.SCANNER) {
             // Placeholder until ScannerScreen is implemented in T036.
