@@ -19,7 +19,11 @@
     <uses-permission
         android:name="android.permission.BLUETOOTH_ADMIN"
         android:maxSdkVersion="30" />
-    <!-- Location is required for BLE scanning on API 26-30. -->
+    <!-- Location is required for BLE scanning on API 26-30. On Android 12+ the system
+         expects both COARSE and FINE to be requested together. -->
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:maxSdkVersion="30" />
     <uses-permission
         android:name="android.permission.ACCESS_FINE_LOCATION"
         android:maxSdkVersion="30" />

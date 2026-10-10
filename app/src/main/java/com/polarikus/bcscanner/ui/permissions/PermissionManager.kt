@@ -6,7 +6,8 @@ import android.os.Build
 /**
  * Helpers describing which runtime permissions are required, by OS version.
  *
- * - API 26-30: `BLUETOOTH`, `BLUETOOTH_ADMIN` and `ACCESS_FINE_LOCATION` (needed for BLE scanning).
+ * - API 26-30: `BLUETOOTH`, `BLUETOOTH_ADMIN`, `ACCESS_COARSE_LOCATION` and
+ *   `ACCESS_FINE_LOCATION` (needed for BLE scanning).
  * - API 31+: `BLUETOOTH_SCAN` and `BLUETOOTH_CONNECT`.
  * - Camera: `CAMERA`.
  *
@@ -30,6 +31,7 @@ object PermissionManager {
             listOf(
                 Manifest.permission.BLUETOOTH,
                 Manifest.permission.BLUETOOTH_ADMIN,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
             )
         }

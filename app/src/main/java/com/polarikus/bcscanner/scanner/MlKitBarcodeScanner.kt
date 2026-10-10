@@ -1,5 +1,7 @@
 package com.polarikus.bcscanner.scanner
 
+import androidx.annotation.OptIn
+import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageProxy
 import com.google.android.gms.tasks.Tasks
 import com.google.mlkit.vision.barcode.BarcodeScanner as MlKitScanner
@@ -19,6 +21,7 @@ class MlKitBarcodeScanner : BarcodeScanner {
 
     private val scanner: MlKitScanner = BarcodeScanning.getClient()
 
+    @OptIn(ExperimentalGetImage::class)
     override fun detect(image: ImageProxy): ScannedCode? {
         val mediaImage = image.image ?: return null
         val input = InputImage.fromMediaImage(mediaImage, image.imageInfo.rotationDegrees)
