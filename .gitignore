@@ -1,0 +1,47 @@
+# Android / Kotlin / Gradle
+*.iml
+.gradle/
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+release/
+
+# Kotlin
+*.kotlin_module
+.kotlin/
+
+# Logs and temp
+*.log
+*.tmp
+*.swp
+Thumbs.db
+
+# Env
+.env
+.env.*
+
+# OS / IDE
+.vscode/
+.idea/
+
+# Signing
+*.jks
+*.keystore
