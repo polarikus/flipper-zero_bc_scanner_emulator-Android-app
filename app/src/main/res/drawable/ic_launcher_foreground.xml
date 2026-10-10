@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Launcher icon foreground: a barcode inside a scanner viewfinder with a scan line.
+  Drawn as a vector so it stays crisp at any density; content is kept within the
+  66dp adaptive-icon safe zone (center 54,54).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Viewfinder corner brackets (amber). -->
+    <path
+        android:pathData="M27,46 V33 H40"
+        android:strokeColor="#FFC400"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M68,33 H81 V46"
+        android:strokeColor="#FFC400"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M81,62 V75 H68"
+        android:strokeColor="#FFC400"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M40,75 H27 V62"
+        android:strokeColor="#FFC400"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Barcode bars (white). -->
+    <path android:fillColor="#FFFFFF" android:pathData="M30,38 h4 v32 h-4 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M37,38 h2 v32 h-2 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M42,38 h6 v32 h-6 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M51,38 h2 v32 h-2 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M56,38 h4 v32 h-4 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M63,38 h3 v32 h-3 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M69,38 h5 v32 h-5 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M76,38 h2 v32 h-2 z" />
+
+    <!-- Scan line (amber), drawn on top of the barcode. -->
+    <path android:fillColor="#FFC400" android:pathData="M32,52 h44 v4 h-44 z" />
+</vector>
