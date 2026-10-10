@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BC Scanner</string>
+
+    <!-- Connection status -->
+    <string name="connection_status_connected">Connected</string>
+    <string name="connection_status_disconnected">Not connected</string>
+    <string name="connection_status_connecting">Connecting…</string>
+    <string name="connection_status_error">Connection error</string>
+
+    <!-- Main screen -->
+    <string name="action_scan">Scan</string>
+    <string name="action_retry">Retry</string>
+    <string name="last_sent_title">Last sent code</string>
+    <string name="last_sent_empty">No code sent yet</string>
+    <string name="delivery_status_pending">Sending to FlipperZero…</string>
+    <string name="delivery_status_delivered">Sent to FlipperZero</string>
+    <string name="delivery_status_error">Send error</string>
+    <string name="flipper_not_ready">Flipper is not ready</string>
+
+    <!-- Scanner screen -->
+    <string name="scanner_title">Scan code</string>
+    <string name="scanner_hint">Point the camera at a barcode or QR code</string>
+    <string name="scanner_empty">No code recognized yet</string>
+    <string name="action_back">Back</string>
+
+    <!-- Permissions -->
+    <string name="permission_camera_rationale">Camera access is required to scan barcodes and QR codes.</string>
+    <string name="permission_bluetooth_rationale">Bluetooth access is required to connect to FlipperZero.</string>
+    <string name="permission_denied">Permission denied. Grant it in system settings to continue.</string>
+</resources>

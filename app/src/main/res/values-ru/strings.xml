@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BC Scanner</string>
+
+    <!-- Состояние соединения -->
+    <string name="connection_status_connected">Подключено</string>
+    <string name="connection_status_disconnected">Не подключено</string>
+    <string name="connection_status_connecting">Подключение…</string>
+    <string name="connection_status_error">Ошибка подключения</string>
+
+    <!-- Главный экран -->
+    <string name="action_scan">Сканировать</string>
+    <string name="action_retry">Повторить</string>
+    <string name="last_sent_title">Последний отправленный код</string>
+    <string name="last_sent_empty">Код ещё не отправлялся</string>
+    <string name="delivery_status_pending">Отправка на FlipperZero…</string>
+    <string name="delivery_status_delivered">Отправлено на FlipperZero</string>
+    <string name="delivery_status_error">Ошибка отправки</string>
+    <string name="flipper_not_ready">Flipper не готов</string>
+
+    <!-- Экран сканера -->
+    <string name="scanner_title">Сканирование кода</string>
+    <string name="scanner_hint">Наведите камеру на штрихкод или QR-код</string>
+    <string name="scanner_empty">Код ещё не распознан</string>
+    <string name="action_back">Назад</string>
+
+    <!-- Разрешения -->
+    <string name="permission_camera_rationale">Для сканирования штрихкодов и QR-кодов нужен доступ к камере.</string>
+    <string name="permission_bluetooth_rationale">Для подключения к FlipperZero нужен доступ к Bluetooth.</string>
+    <string name="permission_denied">Разрешение не выдано. Выдайте его в настройках системы, чтобы продолжить.</string>
+</resources>
