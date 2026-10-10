@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. Compose renders the UI; this platform theme only
+         provides the window background and removes the action bar. -->
+    <style name="Theme.BcScanner" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
