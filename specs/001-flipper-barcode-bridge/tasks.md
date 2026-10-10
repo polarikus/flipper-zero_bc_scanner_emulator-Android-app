@@ -56,14 +56,14 @@ description: "Список задач для реализации фичи"
 
 **⚠️ КРИТИЧНО**: Ни одна пользовательская история не начинается до завершения этой фазы
 
-- [ ] T007 [P] Написать падающие unit-тесты для конечного автомата соединения в `app/src/test/java/com/polarikus/bcscanner/domain/ConnectionStateMachineTest.kt` (переходы `Disconnected → Connecting → Connected → Disconnected/Error` согласно data-model.md)
-- [ ] T008 [P] Создать доменные модели в `app/src/main/java/com/polarikus/bcscanner/domain/model/`: `FlipperDevice(address: String обязателен, name: String?)`, `ConnectionState`, `ScannedCode(value непустое, format, confidence, scannedAt)`, `DeliveryStatus(Pending/Delivered/Error)`, `LastSentCode`, `AppSettings(lastDeviceAddress)`
-- [ ] T009 [P] Определить интерфейсы: `FlipperTransport` (connect/disconnect/`connectionState: Flow`, `incoming: Flow`) в `domain/`, `FlipperRpcClient` (startApp/sendData/disconnect) в `domain/`, `BarcodeScanner` в `scanner/`, `DeviceStore` в `data/prefs/`
-- [ ] T010 [P] Реализовать `DeviceStore` (последний MAC) на DataStore в `app/src/main/java/com/polarikus/bcscanner/data/prefs/` (язык интерфейса берётся из локали ОС и не хранится)
-- [ ] T011 [P] Реализовать утилиты разрешений (BLE: API 26–30 против 31+; камера) в `app/src/main/java/com/polarikus/bcscanner/ui/permissions/PermissionManager.kt`
-- [ ] T012 Создать тонкий DI-контейнер (composition root) `app/src/main/java/com/polarikus/bcscanner/BcScannerApplication.kt`, предоставляющий привязки интерфейсов; конкретные реализации регистрируются в конце своей истории (BleFlipperTransport после T017, RpcFlipperClient после T032, MlKitBarcodeScanner после T033)
-- [ ] T013 Создать `app/src/main/java/com/polarikus/bcscanner/MainActivity.kt` с оболочкой навигации Compose (экраны main и scanner)
-- [ ] T014 Реализовать `ConnectionStateMachine` согласно тестам в `app/src/main/java/com/polarikus/bcscanner/domain/ConnectionStateMachine.kt`
+- [x] T007 [P] Написать падающие unit-тесты для конечного автомата соединения в `app/src/test/java/com/polarikus/bcscanner/domain/ConnectionStateMachineTest.kt` (переходы `Disconnected → Connecting → Connected → Disconnected/Error` согласно data-model.md)
+- [x] T008 [P] Создать доменные модели в `app/src/main/java/com/polarikus/bcscanner/domain/model/`: `FlipperDevice(address: String обязателен, name: String?)`, `ConnectionState`, `ScannedCode(value непустое, format, confidence, scannedAt)`, `DeliveryStatus(Pending/Delivered/Error)`, `LastSentCode`, `AppSettings(lastDeviceAddress)`
+- [x] T009 [P] Определить интерфейсы: `FlipperTransport` (connect/disconnect/`connectionState: Flow`, `incoming: Flow`) в `domain/`, `FlipperRpcClient` (startApp/sendData/disconnect) в `domain/`, `BarcodeScanner` в `scanner/`, `DeviceStore` в `data/prefs/`
+- [x] T010 [P] Реализовать `DeviceStore` (последний MAC) на DataStore в `app/src/main/java/com/polarikus/bcscanner/data/prefs/` (язык интерфейса берётся из локали ОС и не хранится)
+- [x] T011 [P] Реализовать утилиты разрешений (BLE: API 26–30 против 31+; камера) в `app/src/main/java/com/polarikus/bcscanner/ui/permissions/PermissionManager.kt`
+- [x] T012 Создать тонкий DI-контейнер (composition root) `app/src/main/java/com/polarikus/bcscanner/BcScannerApplication.kt`, предоставляющий привязки интерфейсов; конкретные реализации регистрируются в конце своей истории (BleFlipperTransport после T017, RpcFlipperClient после T032, MlKitBarcodeScanner после T033)
+- [x] T013 Создать `app/src/main/java/com/polarikus/bcscanner/MainActivity.kt` с оболочкой навигации Compose (экраны main и scanner)
+- [x] T014 Реализовать `ConnectionStateMachine` согласно тестам в `app/src/main/java/com/polarikus/bcscanner/domain/ConnectionStateMachine.kt`
 
 **Контрольная точка**: Фундамент готов — истории можно реализовывать
 
