@@ -7,13 +7,21 @@
 
 ## UUID
 
+> **Важно (проверено на реальном устройстве).** Прошивка хранит 128-битные UUID
+> little-endian (`targets/f7/ble_glue/services/serial_service_uuid.inc`), поэтому «по воздуху»
+> значения байтово развёрнуты относительно литералов в `.inc`. Ниже — фактические UUID,
+> которые видит BLE-централь.
+
 | Роль | UUID | Свойства | Направление |
 |------|------|----------|-------------|
-| Сервис | `0000fe60-cc7a-482a-984a-7f2ed5b3e58f` | Primary | — |
-| TX | `0000fe61-8e22-4541-9d4c-21edae82ed19` | Read, Indicate | Flipper → телефон |
-| RX | `0000fe62-8e22-4541-9d4c-21edae82ed19` | Write, WriteWithoutResponse, Read | телефон → Flipper |
-| Flow control | `0000fe63-8e22-4541-9d4c-21edae82ed19` | Read, Notify | Flipper → телефон |
-| RPC status | `0000fe64-8e22-4541-9d4c-21edae82ed19` | Read, Write, Notify | двунаправленно |
+| Сервис | `8fe5b3d5-2e7f-4a98-2a48-7acc60fe0000` | Primary | — |
+| TX | `19ed82ae-ed21-4c9d-4145-228e61fe0000` | Read, Indicate | Flipper → телефон |
+| RX | `19ed82ae-ed21-4c9d-4145-228e62fe0000` | Write, WriteWithoutResponse, Read | телефон → Flipper |
+| Flow control | `19ed82ae-ed21-4c9d-4145-228e63fe0000` | Read, Notify | Flipper → телефон |
+| RPC status | `19ed82ae-ed21-4c9d-4145-228e64fe0000` | Read, Write, Notify | двунаправленно |
+
+Сопоставление с `.inc`-литералами: `fe60`→сервис, `fe61`→TX, `fe62`→RX, `fe63`→flow control,
+`fe64`→RPC status (после байтового разворота).
 
 ## Поведение
 
