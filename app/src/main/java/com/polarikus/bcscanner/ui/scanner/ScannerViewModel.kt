@@ -57,20 +57,47 @@ class ScannerViewModel(
     /** `true` once a code was captured, so further frames are ignored (single scan). */
     private var captured = false
 
+    /** The code of the current attempt, kept so a failed delivery can be retried (FR-010). */
+    private var lastAttempted: ScannedCode? = null
+
     /** Handles a recognized [code]; subsequent codes are ignored until the scan completes. */
     fun onCodeDetected(code: ScannedCode) {
         if (captured) return
         captured = true
+        attempt(code)
+    }
+
+    /**
+     * Re-sends the last code after a delivery error, without re-scanning (FR-010, FR-014).
+     *
+     * Only meaningful while the screen is in [ScannerUiState.Error]; ignored otherwise.
+     */
+    fun retry() {
+        if (_state.value !is ScannerUiState.Error) return
+        lastAttempted?.let(::attempt)
+    }
+
+    /** Abandons the scan and returns to the main screen. */
+    fun cancel() {
+        viewModelScope.launch { _events.send(ScannerEvent.ReturnToMain) }
+    }
+
+    private fun attempt(code: ScannedCode) {
+        lastAttempted = code
         _state.value = ScannerUiState.Sending(code)
         viewModelScope.launch {
             val status = sendScannedCode(code)
             lastSentCodeStore.update(code, status)
-            _state.value = when (status) {
-                DeliveryStatus.Delivered -> ScannerUiState.Delivered(code)
-                DeliveryStatus.Pending -> ScannerUiState.Sending(code)
-                is DeliveryStatus.Error -> ScannerUiState.Error(code, status.reason)
+            when (status) {
+                // Return to the main screen only on success; on error stay so the user can retry.
+                DeliveryStatus.Delivered -> {
+                    _state.value = ScannerUiState.Delivered(code)
+                    _events.send(ScannerEvent.ReturnToMain)
+                }
+
+                DeliveryStatus.Pending -> _state.value = ScannerUiState.Sending(code)
+                is DeliveryStatus.Error -> _state.value = ScannerUiState.Error(code, status.reason)
             }
-            _events.send(ScannerEvent.ReturnToMain)
         }
     }
 }

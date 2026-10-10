@@ -5,6 +5,7 @@ import com.polarikus.bcscanner.domain.FlipperRpcClient
 import com.polarikus.bcscanner.domain.model.DeliveryStatus
 import com.polarikus.bcscanner.domain.model.ScannedCode
 import java.util.concurrent.TimeoutException
+import kotlinx.coroutines.CancellationException
 
 /**
  * Sends a scanned [ScannedCode] to the FlipperZero and maps the outcome to a [DeliveryStatus].
@@ -24,11 +25,15 @@ class SendScannedCode(private val rpcClient: FlipperRpcClient) {
             } else {
                 DeliveryStatus.Error("FlipperZero reported an application error")
             }
+        } catch (e: CancellationException) {
+            // Never swallow cancellation: it must propagate to cancel the calling coroutine.
+            throw e
         } catch (e: TimeoutException) {
             DeliveryStatus.Error("No ack from FlipperZero (timeout)")
         } catch (e: FlipperNotReadyException) {
             DeliveryStatus.Error(e.message ?: "FlipperZero is not ready")
         } catch (e: Exception) {
+            // A broken connection fails fast here so the UI never hangs (FR-009).
             DeliveryStatus.Error(e.message ?: "Failed to send the code")
         }
     }

@@ -138,15 +138,15 @@ description: "Список задач для реализации фичи"
 
 ### Тесты для пользовательской истории 3 ⚠️
 
-- [ ] T039 [P] [US3] Написать падающие unit-тесты логики переподключения и повтора в `app/src/test/java/com/polarikus/bcscanner/ui/main/MainViewModelReconnectTest.kt` и `app/src/test/java/com/polarikus/bcscanner/domain/usecase/RetrySendTest.kt`
+- [x] T039 [P] [US3] Написать падающие unit-тесты логики переподключения и повтора в `app/src/test/java/com/polarikus/bcscanner/ui/main/MainViewModelReconnectTest.kt` и `app/src/test/java/com/polarikus/bcscanner/domain/usecase/RetrySendTest.kt`
 
 ### Реализация для пользовательской истории 3
 
-- [ ] T040 [US3] Реализовать авто-переподключение при GAP-разрыве в `app/src/main/java/com/polarikus/bcscanner/data/ble/BleFlipperTransport.kt` и `app/src/main/java/com/polarikus/bcscanner/domain/usecase/ConnectToFlipper.kt`
-- [ ] T041 [US3] Реализовать путь повтора и состояния ошибок в `app/src/main/java/com/polarikus/bcscanner/ui/main/MainViewModel.kt` и `app/src/main/java/com/polarikus/bcscanner/ui/scanner/ScannerViewModel.kt` (зависит от T039)
-- [ ] T042 [US3] Обработать «Flipper не готов» (`ERROR_APP_NOT_RUNNING` / сбой запуска) → `Error` + повтор в `app/src/main/java/com/polarikus/bcscanner/data/rpc/RpcFlipperClient.kt`
-- [ ] T043 [US3] Отображать обрыв связи во время отправки как `Error` без зависания в `SendScannedCode` и UI
-- [ ] T044 [US3] Сквозная проверка сценария восстановления (обрыв → восстановление → повторное сканирование) согласно quickstart Scenario 4
+- [x] T040 [US3] Реализовать авто-переподключение при GAP-разрыве в `app/src/main/java/com/polarikus/bcscanner/data/ble/BleFlipperTransport.kt` и `app/src/main/java/com/polarikus/bcscanner/domain/usecase/ConnectToFlipper.kt`
+- [x] T041 [US3] Реализовать путь повтора и состояния ошибок в `app/src/main/java/com/polarikus/bcscanner/ui/main/MainViewModel.kt` и `app/src/main/java/com/polarikus/bcscanner/ui/scanner/ScannerViewModel.kt` (зависит от T039)
+- [x] T042 [US3] Обработать «Flipper не готов» (`ERROR_APP_NOT_RUNNING` / сбой запуска) → `Error` + повтор в `app/src/main/java/com/polarikus/bcscanner/data/rpc/RpcFlipperClient.kt`
+- [x] T043 [US3] Отображать обрыв связи во время отправки как `Error` без зависания в `SendScannedCode` и UI
+- [x] T044 [US3] Сквозная проверка сценария восстановления (обрыв → восстановление → повторное сканирование) согласно quickstart Scenario 4
 
 **Контрольная точка**: Все истории функциональны независимо
 

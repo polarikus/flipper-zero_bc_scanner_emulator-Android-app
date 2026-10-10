@@ -8,6 +8,9 @@ import com.polarikus.bcscanner.domain.model.ConnectionState
 import com.polarikus.bcscanner.domain.model.FlipperDevice
 import com.polarikus.bcscanner.domain.usecase.ConnectToFlipper
 import com.polarikus.bcscanner.domain.usecase.DisconnectFromFlipper
+import com.polarikus.bcscanner.domain.usecase.RetrySend
+import com.polarikus.bcscanner.domain.usecase.SendScannedCode
+import com.polarikus.bcscanner.domain.FlipperRpcClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -123,12 +126,22 @@ class MainViewModelTest {
         transport: FlipperTransport,
         store: DeviceStore = FakeDeviceStore(null),
         scanner: FlipperDeviceScanner = FakeDeviceScanner(null),
-    ): MainViewModel = MainViewModel(
-        transport = transport,
-        connectToFlipper = ConnectToFlipper(transport, store, scanner),
-        disconnectFromFlipper = DisconnectFromFlipper(transport),
-        lastSentCodeStore = LastSentCodeStore(),
-    )
+    ): MainViewModel {
+        val lastSentCodeStore = LastSentCodeStore()
+        return MainViewModel(
+            transport = transport,
+            connectToFlipper = ConnectToFlipper(transport, store, scanner),
+            disconnectFromFlipper = DisconnectFromFlipper(transport),
+            retrySend = RetrySend(SendScannedCode(NoopRpcClient()), lastSentCodeStore),
+            lastSentCodeStore = lastSentCodeStore,
+        )
+    }
+
+    private class NoopRpcClient : FlipperRpcClient {
+        override suspend fun startApp(name: String, args: String?) = Unit
+        override suspend fun sendData(data: ByteArray): Boolean = true
+        override suspend fun disconnect() = Unit
+    }
 
     private class FakeTransport : FlipperTransport {
         val state = MutableStateFlow<ConnectionState>(ConnectionState.Disconnected)

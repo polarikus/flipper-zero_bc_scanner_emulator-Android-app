@@ -9,6 +9,7 @@ import com.polarikus.bcscanner.domain.model.FlipperDevice
 import com.polarikus.bcscanner.domain.model.LastSentCode
 import com.polarikus.bcscanner.domain.usecase.ConnectToFlipper
 import com.polarikus.bcscanner.domain.usecase.DisconnectFromFlipper
+import com.polarikus.bcscanner.domain.usecase.RetrySend
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -26,6 +27,7 @@ class MainViewModel(
     private val transport: FlipperTransport,
     private val connectToFlipper: ConnectToFlipper,
     private val disconnectFromFlipper: DisconnectFromFlipper,
+    private val retrySend: RetrySend,
     lastSentCodeStore: LastSentCodeStore,
 ) : ViewModel() {
 
@@ -53,6 +55,15 @@ class MainViewModel(
     /** Retries the connection to the last used device (after an error or permission grant). */
     fun retryConnection() {
         viewModelScope.launch { connectToFlipper.connectToLastDevice() }
+    }
+
+    /**
+     * Re-sends the last code when its delivery failed (FR-010, FR-014).
+     *
+     * Does nothing when no code was sent yet or when the last delivery already succeeded.
+     */
+    fun retryLastSend() {
+        viewModelScope.launch { retrySend() }
     }
 
     /** Closes the connection. */

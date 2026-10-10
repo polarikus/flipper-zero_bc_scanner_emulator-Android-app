@@ -81,7 +81,9 @@ class BleFlipperTransport(
     }
 
     override suspend fun write(data: ByteArray) {
-        connection?.write(data)
+        val current = connection
+            ?: throw IllegalStateException("not connected: cannot write to the FlipperZero")
+        current.write(data)
     }
 
     private fun startConnection(address: String, autoConnect: Boolean) {

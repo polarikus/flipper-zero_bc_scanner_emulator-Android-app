@@ -67,6 +67,29 @@ class RpcFlipperClientTest {
         }
     }
 
+    @Test
+    fun `sendData restarts the app when it is not running and retries once`() = runTest {
+        val transport = ExchangeTransport(
+            dataStatuses = ArrayDeque(
+                listOf(
+                    Flipper.CommandStatus.ERROR_APP_NOT_RUNNING,
+                    Flipper.CommandStatus.OK,
+                ),
+            ),
+        )
+        val scope = CoroutineScope(UnconfinedTestDispatcher(testScheduler))
+        try {
+            val client = RpcFlipperClient(transport, scope, timeoutMillis = 1_000)
+
+            val delivered = client.sendData("value".toByteArray())
+
+            assertEquals(true, delivered)
+            assertEquals(listOf(RpcFlipperClient.DEFAULT_APP_NAME), transport.startNames)
+        } finally {
+            scope.cancel()
+        }
+    }
+
     /** In-memory [FlipperTransport] that answers every `app_start_request` from [respond]. */
     private class FakeTransport(
         private val respond: (Flipper.Main) -> Flipper.CommandStatus,
@@ -98,6 +121,48 @@ class RpcFlipperClientTest {
 
         fun setState(value: ConnectionState) {
             state.value = value
+        }
+    }
+
+    /**
+     * In-memory transport that accepts `app_start_request` with `OK` and answers each
+     * `app_data_exchange_request` with the next status from [dataStatuses].
+     */
+    private class ExchangeTransport(
+        private val dataStatuses: ArrayDeque<Flipper.CommandStatus>,
+    ) : FlipperTransport {
+
+        private val state = MutableStateFlow<ConnectionState>(ConnectionState.Disconnected)
+        private val incomingFlow = MutableSharedFlow<ByteArray>(extraBufferCapacity = 16)
+        private val codec = RpcFrameCodec()
+
+        val startNames = mutableListOf<String>()
+
+        override val connectionState: Flow<ConnectionState> = state
+        override val incoming: Flow<ByteArray> = incomingFlow
+
+        override suspend fun connect(device: FlipperDevice) = Unit
+
+        override suspend fun disconnect() = Unit
+
+        override suspend fun write(data: ByteArray) {
+            val message = codec.decode(data).single()
+            val status = when {
+                message.hasAppStartRequest() -> {
+                    startNames += message.appStartRequest.name
+                    Flipper.CommandStatus.OK
+                }
+
+                message.hasAppDataExchangeRequest() ->
+                    dataStatuses.removeFirstOrNull() ?: Flipper.CommandStatus.OK
+
+                else -> return
+            }
+            val response = Flipper.Main.newBuilder()
+                .setCommandId(message.commandId)
+                .setCommandStatus(status)
+                .build()
+            incomingFlow.tryEmit(codec.encode(response))
         }
     }
 }

@@ -18,6 +18,7 @@ import com.polarikus.bcscanner.domain.FlipperRpcClient
 import com.polarikus.bcscanner.domain.FlipperTransport
 import com.polarikus.bcscanner.domain.usecase.ConnectToFlipper
 import com.polarikus.bcscanner.domain.usecase.DisconnectFromFlipper
+import com.polarikus.bcscanner.domain.usecase.RetrySend
 import com.polarikus.bcscanner.domain.usecase.SendScannedCode
 import com.polarikus.bcscanner.scanner.BarcodeScanner
 import com.polarikus.bcscanner.scanner.MlKitBarcodeScanner
@@ -97,6 +98,7 @@ class AppContainer(context: Context) {
                 transport = flipperTransport,
                 connectToFlipper = connectToFlipper,
                 disconnectFromFlipper = disconnectFromFlipper,
+                retrySend = retrySend,
                 lastSentCodeStore = lastSentCodeStore,
             )
         }
@@ -113,6 +115,9 @@ class AppContainer(context: Context) {
 
     /** Sends a scanned code and maps the outcome to a delivery status. */
     val sendScannedCode: SendScannedCode by lazy { SendScannedCode(rpcClient) }
+
+    /** Re-sends the last code when its delivery failed (FR-010, FR-014). */
+    val retrySend: RetrySend by lazy { RetrySend(sendScannedCode, lastSentCodeStore) }
 
     /** Barcode scanner; registered by US2 (T033). */
     val barcodeScanner: BarcodeScanner by lazy { MlKitBarcodeScanner() }

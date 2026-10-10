@@ -95,21 +95,33 @@ class RpcFlipperClient(
     }
 
     override suspend fun sendData(data: ByteArray): Boolean {
-        val response = dispatcher.execute {
-            setAppDataExchangeRequest(
-                Application.DataExchangeRequest.newBuilder()
-                    .setData(ByteString.copyFrom(data))
-                    .build(),
-            )
-        }
-        return when (response.commandStatus) {
+        return when (val status = exchange(data).commandStatus) {
             Flipper.CommandStatus.OK -> true
             Flipper.CommandStatus.ERROR_APP_CMD_ERROR -> false
-            Flipper.CommandStatus.ERROR_APP_NOT_RUNNING ->
-                throw FlipperNotReadyException("app is not running in RPC mode")
+
+            // The app is connected but no longer running in RPC mode (for example after it was
+            // closed on the Flipper): restart it and retry the exchange once (FR-014).
+            Flipper.CommandStatus.ERROR_APP_NOT_RUNNING -> {
+                startAppWithFallback()
+                when (exchange(data).commandStatus) {
+                    Flipper.CommandStatus.OK -> true
+                    Flipper.CommandStatus.ERROR_APP_CMD_ERROR -> false
+                    else -> throw FlipperNotReadyException(
+                        "app is not running in RPC mode after restart (${status.name})",
+                    )
+                }
+            }
 
             else -> false
         }
+    }
+
+    private suspend fun exchange(data: ByteArray): Flipper.Main = dispatcher.execute {
+        setAppDataExchangeRequest(
+            Application.DataExchangeRequest.newBuilder()
+                .setData(ByteString.copyFrom(data))
+                .build(),
+        )
     }
 
     override suspend fun disconnect() {

@@ -12,10 +12,13 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -113,6 +116,23 @@ fun ScannerScreen(
                 .fillMaxWidth()
                 .padding(24.dp),
         )
+
+        if (state is ScannerUiState.Error) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 72.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+            ) {
+                Button(onClick = viewModel::retry) {
+                    Text(text = stringResource(R.string.action_retry))
+                }
+                OutlinedButton(onClick = viewModel::cancel) {
+                    Text(text = stringResource(R.string.action_back))
+                }
+            }
+        }
     }
 }
 

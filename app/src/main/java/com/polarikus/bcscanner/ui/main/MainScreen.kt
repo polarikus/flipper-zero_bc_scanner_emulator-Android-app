@@ -105,6 +105,12 @@ fun MainScreen(
         }
 
         LastSentSection(lastSentCode)
+
+        if (lastSentCode?.status is DeliveryStatus.Error) {
+            Button(onClick = viewModel::retryLastSend) {
+                Text(text = stringResource(R.string.action_retry))
+            }
+        }
     }
 }
 
