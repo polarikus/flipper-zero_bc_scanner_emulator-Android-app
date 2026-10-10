@@ -49,3 +49,5 @@ __pycache__/
 # Signing
 *.jks
 *.keystore
+keystore.properties
+keystores/
