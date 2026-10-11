@@ -212,8 +212,8 @@ Check if `.specify/extensions.yml` exists in the project root.
 2. Отладка и сборка C приложение на Flipper осуществляется с помощью ufbt. Поэтому перед отладкой приложения на flipper нужно проверять есть ли подключенный флиппер командой ufbt help (device-related)
 
 Внимание!!! 
-Ссборка Flipper приложения строго из каталога приложения /Users/igordanilov/CLionProjects/flipperzero-firmware/applications_user/bc_scanner_emulate командой ufbt
-Запуск Flipper приложения (при необходимости) на подключённом FlipperZero командой ufbt launch тоже строго из каталога /Users/igordanilov/CLionProjects/flipperzero-firmware/applications_user/bc_scanner_emulate
+Ссборка Flipper приложения строго из каталога приложения /Users/{userName}/CLionProjects/flipperzero-firmware/applications_user/bc_scanner_emulate командой ufbt
+Запуск Flipper приложения (при необходимости) на подключённом FlipperZero командой ufbt launch тоже строго из каталога /Users/{userName}/CLionProjects/flipperzero-firmware/applications_user/bc_scanner_emulate
 
 
 
